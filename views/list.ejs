@@ -1,17 +1,10 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>List it out</title>
-    <link rel="stylesheet" href="css/styles.css">
-  </head>
+<%- include("header") -%>
 
-  <body>
     <div class="box" id="heading">
-      <h1><%= kindOfDay %> </h1>
+      <h1><%= ListTitle %> </h1>
     </div>
 
-  <div class="box">
+    <div class="box">
       <%  for(var i =0 ; i < newListItems.length ; i++){ %>
         <div class = "item">
           <input type="checkbox">
@@ -19,13 +12,10 @@
         </div>
       <%} %>
 
-
     <form class="item" action="/" method="post">
         <input type="text" name="newItem" placeholder="New Item" autocomplete="off">
-        <button type="submit" name="button">+</button>
+        <button type="submit" name="list" value= <%= ListTitle %> >+</button>
     </form>
+    </div>
 
-      </div>
-
-  </body>
-</html>
+<%- include("footer") -%>
