@@ -8,14 +8,14 @@ const _ = require('lodash');
 const app = express();
 
 // const items =["Grow food", "Cook well", "Eat it slow"];
-const workItems =[];
+// const workItems =[];
 
 app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
-mongoose.connect("mongodb://localhost:27017/todolistDB",{useNewUrlParser:true});
+mongoose.connect("mongodb+srv://admin-nob:22091998@cluster0.cwbeb.mongodb.net/todolistDB?retryWrites=true&w=majority",{useNewUrlParser:true});
 
 const itemSchema = {
   name: String
@@ -54,7 +54,7 @@ app.get("/", function (req,res) {
   //   default:
   //       console.log("Current day is "+ currentDay);
   // }
-  const day = date.getDate();
+  const today = date.getDate();
 
   Item.find({}, function(err, foundItems) {
 
@@ -63,13 +63,10 @@ app.get("/", function (req,res) {
         if (err) {
           console.log(err);
         }
-        else {
-          console.log("success");
-        }
       });
       res.redirect("/");
     } else {
-    res.render("list", {ListTitle: day, newListItems: foundItems});
+    res.render("list", {ListTitle: today, newListItems: foundItems});
     }
   });
 });
@@ -81,16 +78,19 @@ app.post("/", function (req, res) {
     name: itemName
   });
 
-  if(req.body.list){
-      List.findOne({name:listName}, function (err, foundList) {
-        foundList.items.push(item);
-        foundList.save();
-        res.redirect("/"+listName);
+  if( ){
+    item.save();
+    res.redirect("/");
+      }
     });
   }
   else{
-    item.save();
-    res.redirect("/");
+    List.findOne({name:listName}, function (err, foundList) {
+      if(err) console.log(err);
+      else{
+      foundList.items.push(item);
+      foundList.save();
+      res.redirect("/"+listName);
   }
 });
 
@@ -99,7 +99,7 @@ app.post("/delete", function (req, res) {
   const checkedItemId = req.body.checkbox;
   const listName = req.body.listName;
 
-  if(req.body.list){
+  if(){
     List.findOneAndUpdate( {name: listName}, {$pull: {items: {_id: checkedItemId}}}, function (err, foundList) {
       if(err){
         console.log("error here u dumbo");
